@@ -1,4 +1,4 @@
-package com.cih.orderservice.service;
+	package com.cih.orderservice.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,37 +46,33 @@ public class OrderService {
                 .toList();
 
        // A garder en phase 1
-        orderRepository.save(order);
+        //orderRepository.save(order);
        // fin phase 1
 //        
 //       //Début phase 2 : Appel web service Inventory Service
 ////        phase 2:
-//        //InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://localhost:8081/api/inventory",  
-////     		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-////         .retrieve()
-////         .bodyToMono(InventoryResponse[].class)
-////         .block();
+//        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://localhost:8686/api/inventory",  
+//     		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+//         .retrieve()
+//         .bodyToMono(InventoryResponse[].class)
+//         .block();
 //        
 //        // phase 3
-//        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://inventory-service/api/inventory",  
-//    		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-//        .retrieve()
-//        .bodyToMono(InventoryResponse[].class)
-//        .block();
-//       
-//        boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
-//                .allMatch(InventoryResponse::isInStock);        
-//       if(allProductsInStock) {
-//    	  orderRepository.save(order);
-//       } else {
-//    	   throw new IllegalArgumentException("Product is not in stock, please try again later");
-//       }
+        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://inventory-service/api/inventory",  
+    		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+        .retrieve()
+        .bodyToMono(InventoryResponse[].class)
+        .block();
+       
+        boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
+                .allMatch(InventoryResponse::isInStock);        
+       if(allProductsInStock) {
+    	  orderRepository.save(order);
+       } else {
+    	   throw new IllegalArgumentException("Product is not in stock, please try again later");
+       }
       
        //Fin phase 2  
-        
-        
-   
-
 	}
 	
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {

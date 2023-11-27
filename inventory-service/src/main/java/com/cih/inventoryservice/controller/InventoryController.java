@@ -25,11 +25,11 @@ public class InventoryController {
 	 private final InventoryService inventoryService;
 	 
 	 // Début Phase 1
-	 @GetMapping
-     @ResponseStatus(HttpStatus.OK)
-	 public boolean isInStock(@PathVariable("sku-code") String skuCode) {
-		 return inventoryService.isInStock(skuCode);
-	 }
+//	 @GetMapping("/{sku-code}")
+//     @ResponseStatus(HttpStatus.OK)
+//	 public boolean isInStock(@PathVariable("sku-code") String skuCode) {
+//		 return inventoryService.isInStock(skuCode);
+//	 }
 	 // Fin Phase 1
 	 
 	 @GetMapping
