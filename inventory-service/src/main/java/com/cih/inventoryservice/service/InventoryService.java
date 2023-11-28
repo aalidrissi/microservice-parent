@@ -9,9 +9,12 @@ import com.cih.inventoryservice.dto.InventoryResponse;
 import com.cih.inventoryservice.repository.InventoryRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InventoryService {
 
 	private final InventoryRepository inventoryRepository;
@@ -23,7 +26,12 @@ public class InventoryService {
     
     //Début phase 2
     @Transactional(readOnly = true)
-    public List <InventoryResponse> findBySkuCodeIn(List <String> skuCode){
+//    @SneakyThrows
+    public List <InventoryResponse> findBySkuCodeIn(List <String> skuCode) {
+//    	log.info("start sleep");
+//        Thread.sleep(10000);
+//    	log.info("end sleep");
+//        
     	 return inventoryRepository.findBySkuCodeIn(skuCode).stream()
                  .map(inventory ->
                          InventoryResponse.builder()

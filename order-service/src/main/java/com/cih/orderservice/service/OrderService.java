@@ -15,6 +15,7 @@ import com.cih.orderservice.model.Order;
 import com.cih.orderservice.model.OrderLineItems;
 import com.cih.orderservice.repository.OrderRepository;
 
+import io.micrometer.observation.Observation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,28 +49,27 @@ public class OrderService {
        // A garder en phase 1
         //orderRepository.save(order);
        // fin phase 1
-//        
-//       //Début phase 2 : Appel web service Inventory Service
-////        phase 2:
-//        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://localhost:8686/api/inventory",  
-//     		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-//         .retrieve()
-//         .bodyToMono(InventoryResponse[].class)
-//         .block();
-//        
-//        // phase 3
-        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://inventory-service/api/inventory",  
-    		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-        .retrieve()
-        .bodyToMono(InventoryResponse[].class)
-        .block();
-       
+        
+		//Début phase 2 : Appel web service Inventory Service
+	
+		//  InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://localhost:8686/api/inventory",  
+		//		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+		////   .retrieve()
+		////   .bodyToMono(InventoryResponse[].class)w
+		////   .block();
+		////  
+		  // phase 3
+		  InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://inventory-service/api/inventory",  
+				   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+		  .retrieve()
+		  .bodyToMono(InventoryResponse[].class)
+		  .block();        
         boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
                 .allMatch(InventoryResponse::isInStock);        
        if(allProductsInStock) {
     	  orderRepository.save(order);
        } else {
-    	   throw new IllegalArgumentException("Product is not in stock, please try again later");
+    	   throw new IllegalArgumentException("Produit n'est pas dans le stock, merci de réessayer plus tard");
        }
       
        //Fin phase 2  
@@ -82,4 +82,58 @@ public class OrderService {
         orderLineItems.setSkuCode(orderLineItemsDto.getSkuCode());
         return orderLineItems;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+//	public String placeOrder(OrderRequest orderRequest) {
+//	    // début phase 1 
+//		Order order = new Order();
+//		order.setOrderNumber(UUID.randomUUID().toString());
+//
+//        List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItemsDtoList()
+//                .stream()
+//                .map(this::mapToDto)
+//                .toList();
+//
+//        order.setOrderLineItemsList(orderLineItems);
+//
+//
+//        List<String> skuCodes = order.getOrderLineItemsList().stream()
+//                .map(OrderLineItems::getSkuCode)
+//                .toList();
+//
+//       // A garder en phase 1
+//        //orderRepository.save(order);
+//       // fin phase 1
+////        
+////       //Début phase 2 : Appel web service Inventory Service
+//////        phase 2:
+////        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://localhost:8686/api/inventory",  
+////     		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+////         .retrieve()
+////         .bodyToMono(InventoryResponse[].class)
+////         .block();
+////        
+////        // phase 3
+//        InventoryResponse[] inventoryResponseArray =  webClient.build().get().uri("http://inventory-service/api/inventory",  
+//    		   uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+//        .retrieve()
+//        .bodyToMono(InventoryResponse[].class)
+//        .block();
+//       
+//        boolean allProductsInStock = Arrays.stream(inventoryResponseArray)
+//                .allMatch(InventoryResponse::isInStock);        
+//       if(allProductsInStock) {
+//           return "Order Placed";
+//       } else {
+//    	   throw new IllegalArgumentException("Product is not in stock, please try again later");
+//       }
+//      
+//       //Fin phase 2  
+//	}
 }
