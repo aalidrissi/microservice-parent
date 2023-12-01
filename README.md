@@ -9,6 +9,3 @@ toto test
 tutu
 
 branche-9
-develop
-ss
-sssd
