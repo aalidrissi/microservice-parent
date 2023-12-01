@@ -16,6 +16,7 @@ services:
   
   #taskkill /PID <PID> /F
   #netstat -aon | findstr 3306
+  # dev branche cih-2
   mysql:
     image: mysql:5.7
     restart: always
