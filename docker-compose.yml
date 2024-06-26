@@ -1,7 +1,7 @@
 ---
 version: '3.7'
 services:
-  
+  ##MW
   ## Mongo Docker Compose Config toto
   ##docker stop $(docker ps -a -q) stop all containers
   mongo:
@@ -39,6 +39,10 @@ services:
       - my-db:/var/lib/mysql
 # Names our volume
 volumes:
+
   my-db:
 
 #test
+
+  my-dbs:
+
